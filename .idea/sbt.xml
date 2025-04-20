@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaSbtSettings">
+    <option name="linkedExternalProjectsSettings">
+      <SbtProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/scalaETLAPP" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/scalaETLAPP" />
+            <option value="$PROJECT_DIR$/scalaETLAPP/project" />
+          </set>
+        </option>
+        <option name="sbtVersion" value="1.10.11" />
+      </SbtProjectSettings>
+    </option>
+  </component>
+</project>

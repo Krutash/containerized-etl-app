@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="ContainerizedETLPipeline">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/microServiceForLocal/src/main/java" />
+    </SOURCES>
+  </library>
+</component>

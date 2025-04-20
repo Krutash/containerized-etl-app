@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    ports:
+      - "3306:3306"
+
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    environment:
+      - CLUSTER_NAME=hadoop-cluster
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    ports:
+      - "9000:9000"
+      - "9870:9870"
+    volumes:
+      - hdfs_namenode:/hadoop/dfs/name
+    networks:
+      - hadoop
+
+  datanode1:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode1
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    depends_on:
+      - namenode
+    volumes:
+      - hdfs_datanode1:/hadoop/dfs/data
+    networks:
+      - hadoop
+
+  datanode2:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode2
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    depends_on:
+      - namenode
+    volumes:
+      - hdfs_datanode2:/hadoop/dfs/data
+    networks:
+      - hadoop
+
+  datanode3:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode3
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    depends_on:
+      - namenode
+    volumes:
+      - hdfs_datanode3:/hadoop/dfs/data
+    networks:
+      - hadoop
+
+
+
+  java-api:
+    build: ./java-api  # Java API app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+      - namenode
+
+  spark-etl:
+    build: ./spark-etl  # Spark job
+    entrypoint: ["/bin/bash", "-c", "sleep infinity"] # Don't auto-run
+
+volumes:
+  hdfs_namenode:
+  hdfs_datanode1:
+  hdfs_datanode2:
+  hdfs_datanode3:
+
+networks:
+  hadoop:

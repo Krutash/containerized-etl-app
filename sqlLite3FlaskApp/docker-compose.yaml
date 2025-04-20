@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  flask-api:
+    build: ./flaskApp
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./flaskApp/chinook_test.db:/flaskApp/chinook_test.db
+
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
